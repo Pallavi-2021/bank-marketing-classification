@@ -105,7 +105,7 @@ Implement and compare 6 different machine learning classification algorithms, ev
 
 ---
 
-## 🤖 Models Used
+##  Models Used
 
 Six classification algorithms were implemented and evaluated:
 
@@ -316,7 +316,7 @@ bank-marketing-classification/
 
 The deployed web application includes:
 
-### ✅ Required Features (Per BITS Assignment)
+### Required Features (Per BITS Assignment)
 
 1. **Dataset Upload Option (CSV)** ✓
    - File uploader for test data
@@ -389,10 +389,9 @@ All metrics calculated using scikit-learn's implementation with consistent param
 
 ##  Author
 
-**Pallavi Ajith**  
-**BITS ID:** 2025AB05170
-**Email:** 2025ab05170@wilp.bits-pilani.ac.in  
----
+Pallavi Ajith 
+BITS ID: 2025AB05170
+
 
 ## License
 
