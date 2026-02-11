@@ -17,7 +17,6 @@ A comprehensive machine learning project implementing and comparing 6 classifica
 - [Model Observations](#model-observations)
 - [Installation & Usage](#installation--usage)
 - [Project Structure](#project-structure)
-- 
 
 ---
 
