@@ -167,7 +167,7 @@ All models were evaluated on the same test set (9,042 samples) using 6 metrics:
 - Highest MCC (0.4972) - Best performance on imbalanced data
 -  Highest Accuracy (90.80%) - Most correct predictions
   
-###Metric Leaders
+### Metric Leaders
 - Best Precision: Random Forest (69.64%) - Most reliable positive predictions
 - Best Recall: Naive Bayes (48.77%) - Catches most positive cases
 - Best AUC: XGBoost (93.28%) - Best ranking ability
