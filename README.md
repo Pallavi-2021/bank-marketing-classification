@@ -210,7 +210,7 @@ Detailed analysis of each model's performance characteristics:
 
 ### Step 1: Clone Repository
 ```bash
-git clone https://github.com/YOUR_USERNAME/bank-marketing-classification.git
+git clone https://github.com/Pallavi-2021/bank-marketing-classification.git
 cd bank-marketing-classification
 ```
 
