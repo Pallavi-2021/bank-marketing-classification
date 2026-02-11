@@ -17,7 +17,7 @@ A comprehensive machine learning project implementing and comparing 6 classifica
 - [Model Observations](#model-observations)
 - [Installation & Usage](#installation--usage)
 - [Project Structure](#project-structure)
-- [References](#references)
+- 
 
 ---
 
@@ -42,7 +42,6 @@ Implement and compare 6 different machine learning classification algorithms, ev
 **Dataset Name:** Bank Marketing Dataset  
 **Source:** UCI Machine Learning Repository  
 **URL:** https://archive.ics.uci.edu/dataset/222/bank+marketing  
-**Citation:** Moro, S., Rita, P., & Cortez, P. (2014). Bank Marketing [Dataset]. UCI Machine Learning Repository. https://doi.org/10.24432/C5K306
 
 ### Dataset Characteristics
 
@@ -128,7 +127,7 @@ A non-parametric method that classifies based on similarity to nearest neighbors
 - **Use Case:** Pattern recognition, similarity-based prediction
 
 ### 4. Naive Bayes (Gaussian)
-A probabilistic classifier based on Bayes' theorem with independence assumption.
+A probabilistic classifier based on Bayes' theorem with the independence assumption.
 - **Type:** Probabilistic Classifier
 - **Hyperparameters:** Default GaussianNB parameters
 - **Use Case:** Fast training, real-time predictions
