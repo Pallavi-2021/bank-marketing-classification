@@ -19,7 +19,7 @@ st.set_page_config(
     layout="wide"
 )
 
-# Custom CSS
+# Custom CSS - FIXED FOR VISIBILITY
 st.markdown("""
     <style>
     .main {
@@ -34,16 +34,48 @@ st.markdown("""
         color: #ff7f0e;
         padding-top: 20px;
     }
-    .stMetric {
+    /* FIX: Force metric text to be visible */
+    [data-testid="stMetric"] {
         background-color: #f0f2f6;
-        padding: 10px;
-        border-radius: 5px;
+        padding: 15px;
+        border-radius: 10px;
+        border: 2px solid #e0e0e0;
+    }
+    [data-testid="stMetricLabel"] {
+        color: #000000 !important;
+        font-size: 14px !important;
+        font-weight: 600 !important;
+    }
+    [data-testid="stMetricValue"] {
+        color: #1f77b4 !important;
+        font-size: 28px !important;
+        font-weight: 700 !important;
+    }
+    /* Alternative: Use custom metric cards */
+    .metric-card {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+        color: white;
+        margin: 10px 0;
+    }
+    .metric-label {
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 10px;
+        color: white;
+    }
+    .metric-value {
+        font-size: 32px;
+        font-weight: 700;
+        color: white;
     }
     </style>
     """, unsafe_allow_html=True)
 
 # Title
-st.title("🏦 Bank Marketing Classification - ML Models Comparison")
+st.title(" Bank Marketing Classification - ML Models Comparison")
 st.markdown("### BITS Pilani - Machine Learning Assignment 2")
 st.markdown("---")
 
@@ -100,7 +132,7 @@ results_data = {
 
 results_df = pd.DataFrame(results_data)
 
-# Confusion matrices for each model (example data - replace with your actual test set results)
+# Confusion matrices for each model
 confusion_matrices = {
     'Logistic Regression': np.array([[7728, 254], [672, 360]]),
     'Decision Tree Classifier': np.array([[7642, 340], [621, 411]]),
@@ -110,17 +142,43 @@ confusion_matrices = {
     'XGBoost (Ensemble)': np.array([[7588, 394], [562, 470]])
 }
 
-# Dataset Information
-st.header(" Dataset Information")
+# Dataset Information - USING HTML FOR VISIBILITY
+st.header("Dataset Information")
+
+# Method 1: Using HTML cards (more reliable)
 col1, col2, col3, col4 = st.columns(4)
+
 with col1:
-    st.metric("Dataset", "Bank Marketing")
+    st.markdown("""
+    <div class="metric-card">
+        <div class="metric-label">Dataset</div>
+        <div class="metric-value">Bank Marketing</div>
+    </div>
+    """, unsafe_allow_html=True)
+
 with col2:
-    st.metric("Total Instances", "45,211")
+    st.markdown("""
+    <div class="metric-card">
+        <div class="metric-label">Total Instances</div>
+        <div class="metric-value">45,211</div>
+    </div>
+    """, unsafe_allow_html=True)
+
 with col3:
-    st.metric("Features", "16")
+    st.markdown("""
+    <div class="metric-card">
+        <div class="metric-label">Features</div>
+        <div class="metric-value">16</div>
+    </div>
+    """, unsafe_allow_html=True)
+
 with col4:
-    st.metric("Target Classes", "2 (Yes/No)")
+    st.markdown("""
+    <div class="metric-card">
+        <div class="metric-label">Target Classes</div>
+        <div class="metric-value">2 (Yes/No)</div>
+    </div>
+    """, unsafe_allow_html=True)
 
 st.markdown("""
 **Problem Statement:** Predict whether a client will subscribe to a term deposit based on direct marketing campaign data from a Portuguese banking institution.
@@ -130,8 +188,8 @@ st.markdown("""
 
 st.markdown("---")
 
-# File Upload Section (BITS Requirement)
-st.header(" Upload Test Dataset")
+# File Upload Section
+st.header("Upload Test Dataset (Optional)")
 uploaded_file = st.file_uploader(
     "Upload your CSV test file to make predictions",
     type=['csv'],
@@ -140,29 +198,26 @@ uploaded_file = st.file_uploader(
 
 if uploaded_file is not None:
     try:
-        # Load uploaded data
         test_df = pd.read_csv(uploaded_file)
         st.success(f"File uploaded successfully! Loaded {len(test_df)} samples.")
         
-        with st.expander(" View Uploaded Data Sample"):
+        with st.expander("View Uploaded Data Sample"):
             st.dataframe(test_df.head(10), use_container_width=True)
         
-        # Check for target column
         if 'y' in test_df.columns:
-            st.info(" Target column 'y' detected. Ready for evaluation!")
+            st.info("Target column 'y' detected. Ready for evaluation!")
         else:
             st.warning("No target column 'y' found. Upload includes features only.")
             
     except Exception as e:
-        st.error(f" Error loading file: {str(e)}")
+        st.error(f"Error loading file: {str(e)}")
 
 st.markdown("---")
 
 # Model Performance Results
 st.header(" All Models Performance Comparison")
 
-# Display main comparison table
-st.subheader("Performance Metrics Table")
+st.subheader(" Performance Metrics Table")
 st.dataframe(
     results_df.style.highlight_max(axis=0, subset=['Accuracy', 'AUC', 'Precision', 'Recall', 'F1 Score', 'MCC'], color='lightgreen')
               .format({
@@ -176,13 +231,11 @@ st.dataframe(
     use_container_width=True
 )
 
-# Best model highlight
-st.success(" **Best Overall Model:** XGBoost (Ensemble) - Highest Accuracy (0.9080), AUC (0.9328), F1 Score (0.5367), and MCC (0.4972)")
+st.success("**Best Overall Model:** XGBoost (Ensemble) - Highest Accuracy (0.9080), AUC (0.9328), F1 Score (0.5367), and MCC (0.4972)")
 
-# Download Results
 csv = results_df.to_csv(index=False)
 st.download_button(
-    label=" Download Performance Metrics (CSV)",
+    label="📥 Download Performance Metrics (CSV)",
     data=csv,
     file_name="model_performance_metrics.csv",
     mime="text/csv"
@@ -190,29 +243,64 @@ st.download_button(
 
 st.markdown("---")
 
-# Selected Model Details
+# Selected Model Details - USING HTML CARDS
 st.header(f" Selected Model: {selected_model}")
 
-# Get selected model data
 model_data = results_df[results_df['Model'] == selected_model].iloc[0]
 
-# Display metrics for selected model
+# Display metrics using HTML cards for better visibility
 col1, col2, col3, col4, col5, col6 = st.columns(6)
-with col1:
-    st.metric("Accuracy", f"{model_data['Accuracy']:.4f}")
-with col2:
-    st.metric("AUC", f"{model_data['AUC']:.4f}")
-with col3:
-    st.metric("Precision", f"{model_data['Precision']:.4f}")
-with col4:
-    st.metric("Recall", f"{model_data['Recall']:.4f}")
-with col5:
-    st.metric("F1 Score", f"{model_data['F1 Score']:.4f}")
-with col6:
-    st.metric("MCC", f"{model_data['MCC']:.4f}")
 
-# Confusion Matrix (BITS Requirement)
-st.subheader(f" Confusion Matrix - {selected_model}")
+with col1:
+    st.markdown(f"""
+    <div class="metric-card">
+        <div class="metric-label">Accuracy</div>
+        <div class="metric-value">{model_data['Accuracy']:.4f}</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+with col2:
+    st.markdown(f"""
+    <div class="metric-card">
+        <div class="metric-label">AUC</div>
+        <div class="metric-value">{model_data['AUC']:.4f}</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+with col3:
+    st.markdown(f"""
+    <div class="metric-card">
+        <div class="metric-label">Precision</div>
+        <div class="metric-value">{model_data['Precision']:.4f}</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+with col4:
+    st.markdown(f"""
+    <div class="metric-card">
+        <div class="metric-label">Recall</div>
+        <div class="metric-value">{model_data['Recall']:.4f}</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+with col5:
+    st.markdown(f"""
+    <div class="metric-card">
+        <div class="metric-label">F1 Score</div>
+        <div class="metric-value">{model_data['F1 Score']:.4f}</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+with col6:
+    st.markdown(f"""
+    <div class="metric-card">
+        <div class="metric-label">MCC</div>
+        <div class="metric-value">{model_data['MCC']:.4f}</div>
+    </div>
+    """, unsafe_allow_html=True)
+
+# Confusion Matrix
+st.subheader(f"Confusion Matrix - {selected_model}")
 
 col1, col2 = st.columns([1, 1])
 
@@ -230,20 +318,18 @@ with col1:
     plt.close()
 
 with col2:
-    # Classification Report
-    st.markdown("###  Classification Metrics")
+    st.markdown("### Classification Metrics")
     
-    # Calculate metrics from confusion matrix
     tn, fp, fn, tp = cm.ravel()
     
     metrics_table = pd.DataFrame({
         'Metric': ['True Negatives', 'False Positives', 'False Negatives', 'True Positives', 
                    'Accuracy', 'Precision', 'Recall', 'F1 Score'],
         'Value': [
-            f'{tn}',
-            f'{fp}',
-            f'{fn}',
-            f'{tp}',
+            f'{tn:,}',
+            f'{fp:,}',
+            f'{fn:,}',
+            f'{tp:,}',
             f"{model_data['Accuracy']:.4f}",
             f"{model_data['Precision']:.4f}",
             f"{model_data['Recall']:.4f}",
@@ -258,7 +344,6 @@ st.markdown("---")
 # Visualizations
 st.header(" Performance Visualizations")
 
-# Create two columns for charts
 col1, col2 = st.columns(2)
 
 with col1:
@@ -295,7 +380,6 @@ with col2:
     st.pyplot(fig)
     plt.close()
 
-# F1 Score and MCC
 col3, col4 = st.columns(2)
 
 with col3:
@@ -341,7 +425,7 @@ with col4:
 st.markdown("---")
 
 # Model Observations
-st.header("💡 Model Performance Observations")
+st.header(" Model Performance Observations")
 
 observations = {
     'Model': [
@@ -373,7 +457,7 @@ st.dataframe(obs_df, use_container_width=True, height=400)
 st.markdown("---")
 
 # Dataset Details
-st.header(" Dataset Features Description")
+st.header("Dataset Features Description")
 
 col1, col2 = st.columns(2)
 
@@ -381,50 +465,48 @@ with col1:
     st.subheader("Bank Client Data")
     st.markdown("""
     - **age**: Client age (numeric)
-    - **job**: Type of job (categorical: admin, technician, services, etc.)
-    - **marital**: Marital status (categorical: married, single, divorced)
-    - **education**: Education level (categorical: primary, secondary, tertiary, unknown)
-    - **default**: Credit in default? (binary: yes, no)
+    - **job**: Type of job (categorical)
+    - **marital**: Marital status (categorical)
+    - **education**: Education level (categorical)
+    - **default**: Credit in default? (binary)
     - **balance**: Average yearly balance in euros (numeric)
-    - **housing**: Housing loan? (binary: yes, no)
-    - **loan**: Personal loan? (binary: yes, no)
+    - **housing**: Housing loan? (binary)
+    - **loan**: Personal loan? (binary)
     """)
 
 with col2:
     st.subheader("Campaign Information")
     st.markdown("""
-    - **contact**: Contact communication type (categorical: cellular, telephone, unknown)
-    - **day**: Last contact day of month (numeric: 1-31)
-    - **month**: Last contact month (categorical: jan, feb, mar, etc.)
+    - **contact**: Contact communication type (categorical)
+    - **day**: Last contact day of month (numeric)
+    - **month**: Last contact month (categorical)
     - **duration**: Contact duration in seconds (numeric)
     - **campaign**: Number of contacts during campaign (numeric)
-    - **pdays**: Days since last contact from previous campaign (numeric, -1 = not contacted)
+    - **pdays**: Days since last contact from previous campaign (numeric)
     - **previous**: Number of contacts before this campaign (numeric)
-    - **poutcome**: Previous campaign outcome (categorical: success, failure, other, unknown)
+    - **poutcome**: Previous campaign outcome (categorical)
     """)
 
-# Technical Details
-with st.expander("🔧 Technical Implementation Details"):
+with st.expander(" Technical Implementation Details"):
     st.markdown("""
     ### Preprocessing Pipeline
-    - **Numerical Features**: Standardized using StandardScaler (zero mean, unit variance)
-    - **Categorical Features**: One-Hot Encoded with drop='first' to avoid multicollinearity
-    - **Train-Test Split**: 80-20 ratio with stratification to maintain class distribution
-    - **Target Encoding**: Binary mapping (yes=1, no=0)
+    - **Numerical Features**: Standardized using StandardScaler
+    - **Categorical Features**: One-Hot Encoded
+    - **Train-Test Split**: 80-20 with stratification
+    - **Target Encoding**: yes=1, no=0
     
     ### Model Hyperparameters
     - **Logistic Regression**: max_iter=1000, solver='lbfgs', random_state=42
     - **Decision Tree**: max_depth=10, random_state=42
     - **KNN**: n_neighbors=5, weights='uniform', metric='euclidean'
-    - **Naive Bayes**: GaussianNB with default var_smoothing=1e-9
+    - **Naive Bayes**: GaussianNB with default parameters
     - **Random Forest**: n_estimators=100, max_depth=15, random_state=42
     - **XGBoost**: n_estimators=100, max_depth=6, learning_rate=0.1, random_state=42
     
     ### Evaluation Methodology
-    - All models trained on 36,169 samples (80% of dataset)
+    - All models trained on 36,169 samples (80%)
     - Evaluated on 9,042 samples (20% test set)
     - Cross-validation performed during training
-    - No data leakage between train and test sets
     """)
 
 # Footer
