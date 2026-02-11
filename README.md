@@ -162,10 +162,16 @@ All models were evaluated on the same test set (9,042 samples) using 6 metrics:
 
 ###  Best Performing Model
 **XGBoost (Ensemble)** achieves the best overall performance with:
-- Highest Accuracy: 90.80%
-- Highest AUC: 93.28%
-- Highest F1 Score: 0.5367
-- Highest MCC: 0.4972
+- Highest AUC (93.28%) - Best class discrimination
+- Highest F1 Score (0.5367) - Best precision-recall balance
+- Highest MCC (0.4972) - Best performance on imbalanced data
+-  Highest Accuracy (90.80%) - Most correct predictions
+  
+###Metric Leaders
+- Best Precision: Random Forest (69.64%) - Most reliable positive predictions
+- Best Recall: Naive Bayes (48.77%) - Catches most positive cases
+- Best AUC: XGBoost (93.28%) - Best ranking ability
+- Best F1: XGBoost (0.5367) - Best overall balance
 
 ### Metrics Explanation
 
