@@ -158,7 +158,7 @@ st.sidebar.info("""
 """)
 
 # File Upload Section
-st.header(" Upload Test Dataset (Optional)")
+st.header(" Upload Test Dataset")
 uploaded_file = st.file_uploader(
     "Upload your CSV test file to make predictions",
     type=['csv'],
@@ -525,3 +525,4 @@ st.markdown("""
         <p>Dataset: UCI Machine Learning Repository</p>
     </div>
     """, unsafe_allow_html=True)
+
