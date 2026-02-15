@@ -124,8 +124,41 @@ st.markdown("""
 
 st.markdown("---")
 
+# Sidebar - Model Selection (ALWAYS VISIBLE)
+st.sidebar.header(" Model Selection")
+selected_model = st.sidebar.selectbox(
+    "Choose a Classification Model:",
+    [
+        'Logistic Regression',
+        'Decision Tree Classifier', 
+        'K-Nearest Neighbors',
+        'Naive Bayes (Gaussian)',
+        'Random Forest (Ensemble)',
+        'XGBoost (Ensemble)'
+    ]
+)
+
+st.sidebar.markdown("---")
+st.sidebar.info("""
+**Models Implemented:**
+1. Logistic Regression
+2. Decision Tree
+3. K-Nearest Neighbors
+4. Naive Bayes
+5. Random Forest
+6. XGBoost
+
+**Evaluation Metrics:**
+- Accuracy
+- AUC Score
+- Precision
+- Recall
+- F1 Score
+- MCC Score
+""")
+
 # File Upload Section
-st.header("Upload Test Dataset ")
+st.header(" Upload Test Dataset (Optional)")
 uploaded_file = st.file_uploader(
     "Upload your CSV test file to make predictions",
     type=['csv'],
@@ -136,13 +169,13 @@ uploaded_file = st.file_uploader(
 if uploaded_file is not None:
     try:
         test_df = pd.read_csv(uploaded_file)
-        st.success(f"File uploaded successfully! Loaded {len(test_df)} samples.")
+        st.success(f" File uploaded successfully! Loaded {len(test_df)} samples.")
         
         with st.expander(" View Uploaded Data Sample"):
             st.dataframe(test_df.head(10), use_container_width=True)
         
         if 'y' in test_df.columns:
-            st.info("Target column 'y' detected. Ready for evaluation!")
+            st.info(" Target column 'y' detected. Ready for evaluation!")
         else:
             st.warning(" No target column 'y' found. Upload includes features only.")
             st.stop()
@@ -152,39 +185,6 @@ if uploaded_file is not None:
         st.stop()
 
     st.markdown("---")
-
-    # Sidebar - Model Selection (MOVED INSIDE IF BLOCK)
-    st.sidebar.header(" Model Selection")
-    selected_model = st.sidebar.selectbox(
-        "Choose a Classification Model:",
-        [
-            'Logistic Regression',
-            'Decision Tree Classifier', 
-            'K-Nearest Neighbors',
-            'Naive Bayes (Gaussian)',
-            'Random Forest (Ensemble)',
-            'XGBoost (Ensemble)'
-        ]
-    )
-
-    st.sidebar.markdown("---")
-    st.sidebar.info("""
-    **Models Implemented:**
-    1. Logistic Regression
-    2. Decision Tree
-    3. K-Nearest Neighbors
-    4. Naive Bayes
-    5. Random Forest
-    6. XGBoost
-
-    **Evaluation Metrics:**
-    - Accuracy
-    - AUC Score
-    - Precision
-    - Recall
-    - F1 Score
-    - MCC Score
-    """)
 
     # Your actual training results
     results_data = {
@@ -219,7 +219,7 @@ if uploaded_file is not None:
     # Model Performance Results
     st.header("All Models Performance Comparison")
 
-    st.subheader(" Performance Metrics Table")
+    st.subheader("Performance Metrics Table")
     st.dataframe(
         results_df.style.highlight_max(axis=0, subset=['Accuracy', 'AUC', 'Precision', 'Recall', 'F1 Score', 'MCC'], color='lightgreen')
                   .format({
@@ -233,11 +233,11 @@ if uploaded_file is not None:
         use_container_width=True
     )
 
-    st.success(" **Best Overall Model:** XGBoost (Ensemble) - Highest Accuracy (0.9080), AUC (0.9328), F1 Score (0.5367), and MCC (0.4972)")
+    st.success("**Best Overall Model:** XGBoost (Ensemble) - Highest Accuracy (0.9080), AUC (0.9328), F1 Score (0.5367), and MCC (0.4972)")
 
     csv = results_df.to_csv(index=False)
     st.download_button(
-        label=" Download Performance Metrics (CSV)",
+        label="Download Performance Metrics (CSV)",
         data=csv,
         file_name="model_performance_metrics.csv",
         mime="text/csv"
@@ -302,7 +302,7 @@ if uploaded_file is not None:
         """, unsafe_allow_html=True)
 
     # Confusion Matrix
-    st.subheader(f" Confusion Matrix - {selected_model}")
+    st.subheader(f"Confusion Matrix - {selected_model}")
 
     col1, col2 = st.columns([1, 1])
 
@@ -320,7 +320,7 @@ if uploaded_file is not None:
         plt.close()
 
     with col2:
-        st.markdown("### Classification Metrics")
+        st.markdown("### 📋 Classification Metrics")
         
         tn, fp, fn, tp = cm.ravel()
         
@@ -459,7 +459,7 @@ if uploaded_file is not None:
     st.markdown("---")
 
     # Dataset Details
-    st.header("Dataset Features Description")
+    st.header(" Dataset Features Description")
 
     col1, col2 = st.columns(2)
 
@@ -514,7 +514,7 @@ if uploaded_file is not None:
 # ==================== END OF IF BLOCK ====================
 else:
     # Show message when no file uploaded
-    st.info("Please upload a CSV file to see model performance results and visualizations.")
+    st.info(" Please upload a CSV file to see model performance results and visualizations.")
 
 # Footer (always shown)
 st.markdown("---")
